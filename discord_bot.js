@@ -60,7 +60,6 @@ try{
 }
 
 var qs = require("querystring");
-
 var d20 = require("d20");
 
 var htmlToText = require('html-to-text');
