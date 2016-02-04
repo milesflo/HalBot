@@ -27,7 +27,6 @@ build/Release
 node_modules
 
 #config files
-auth.json
 rss.json
 alias.json
 permissions.json
