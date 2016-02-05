@@ -783,5 +783,5 @@ function get_gif(tags, func) {
 bot.login(AuthDetails.email, AuthDetails.password);
 
 server.listen(process.env.PORT || 5000, function() {
-    console.log('Listening on port %d', );
+    console.log('Listening on port');
 });
