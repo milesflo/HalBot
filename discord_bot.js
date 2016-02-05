@@ -783,7 +783,9 @@ function get_gif(tags, func) {
 bot.login(AuthDetails.email, AuthDetails.password);
 
 http.createServer(function(req,res) {
-    res.write("Hello!");
+    setInterval(function() {
+    http.get("http://polar-savannah-34466.herokuapp.com");
+    }, 300000);
 }).listen(process.env.PORT || 5000, function() {
     console.log('Listening on port');
 });
