@@ -24,7 +24,7 @@ exports.chatterb = {
 	process : function(bot,msg, suffix) {
 			var conv = suffix.split(" ");
 			talkbot.write(conv, function (response) {
-			bot.sendMessage(msg.channel, "!chatterb " + response.message)
+			bot.sendMessage(msg.channel, "!chattera " + response.message)
 			})
 	}
 }
