@@ -1,5 +1,6 @@
 exports.commands = [
-	"talk"
+	"talk",
+	"chatterb"
 ]
 
 var cleverbot = require("cleverbot-node");
@@ -13,6 +14,17 @@ exports.talk = {
 			var conv = suffix.split(" ");
 			talkbot.write(conv, function (response) {
 			bot.sendMessage(msg.channel, response.message)
+			})
+	}
+}
+
+exports.chatterb = {
+	usage : "<message>",
+	description : "Talk directly to the bot",
+	process : function(bot,msg, suffix) {
+			var conv = suffix.split(" ");
+			talkbot.write(conv, function (response) {
+			bot.sendMessage(msg.channel, "!chatterb " + response.message)
 			})
 	}
 }
