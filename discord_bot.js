@@ -785,7 +785,7 @@ bot.login(AuthDetails.email, AuthDetails.password);
 http.createServer(function(req,res) {
     setInterval(function() {
         http.get("http://polar-savannah-34466.herokuapp.com");
-    }, 60000);
+    }, 200);
 }).listen(process.env.PORT || 5000, function() {
     console.log('Listening on port');
 });
