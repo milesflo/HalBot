@@ -1,4 +1,11 @@
-var http = require('http');
+var http = require('http'),
+    fs = require('fs'),
+    path = require('path'),
+    qs = require('querystring'),
+    d20 = require('d20'),
+    request = require('request')
+
+var htmlToText = require('html-to-text');
 
 try {
 	var Discord = require("discord.js");
@@ -60,11 +67,6 @@ try{
 	Config.debug = false;
 	Config.respondToInvalid = false;
 }
-
-var qs = require("querystring");
-var d20 = require("d20");
-
-var htmlToText = require('html-to-text');
 
 var giphy_config = {
     "api_key": "dc6zaTOxFJmzC",
@@ -403,7 +405,7 @@ var commands = {
 				var command = args.shift();
 				aliases[name] = [command, args.join(" ")];
 				//now save the new alias
-				require("fs").writeFile("./alias.json",JSON.stringify(aliases,null,2), null);
+				fs.writeFile("./alias.json",JSON.stringify(aliases,null,2), null);
 				bot.sendMessage(msg.channel,"created alias " + name);
 			}
 		}
@@ -431,17 +433,6 @@ var commands = {
 			}
 		}
 	},
-	"eval": {
-		usage: "<command>",
-		description: 'Executes arbitrary javascript in the bot process. User must have "eval" permission',
-		process: function(bot,msg,suffix) {
-			if(Permissions.checkPermission(msg.author,"eval")){
-				bot.sendMessage(msg.channel, eval(suffix,bot));
-			} else {
-				bot.sendMessage(msg.channel, msg.author + " doesn't have permission to execute eval!");
-			}
-		}
-	},
 	"topic": {
 		usage: "[topic]",
 		description: 'Sets the topic for the channel. No topic removes the topic.',
@@ -460,7 +451,7 @@ var commands = {
                 var eachDie = suffix.split("+");
                 var passing = 0;
                 for (var i = 0; i < eachDie.length; i++){
-                    if (eachDie[i].split("d")[0] < 50) {
+                    if (eachDie[i].split("d")[0] <= 50) {
                         passing += 1;
                     };
                 }
@@ -498,7 +489,7 @@ var commands = {
 		usage: "<stream>",
 		description: "checks if the given stream is online",
 		process: function(bot,msg,suffix){
-			require("request")("https://api.twitch.tv/kraken/streams/"+suffix,
+			request("https://api.twitch.tv/kraken/streams/"+suffix,
 			function(err,res,body){
 				var stream = JSON.parse(body);
 				if(stream.stream){
@@ -520,7 +511,7 @@ var commands = {
 			var url = "http://xkcd.com/";
 			if(suffix != "") url += suffix+"/";
 			url += "info.0.json";
-			require("request")(url,function(err,res,body){
+			request(url,function(err,res,body){
 				try{
 					var comic = JSON.parse(body);
 					bot.sendMessage(msg.channel,
@@ -582,11 +573,9 @@ try{
 	messagebox = {};
 }
 function updateMessagebox(){
-	require("fs").writeFile("./messagebox.json",JSON.stringify(messagebox,null,2), null);
+	fs.writeFile("./messagebox.json",JSON.stringify(messagebox,null,2), null);
 }
 
-var fs = require('fs'),
-	path = require('path');
 function getDirectories(srcpath) {
 	return fs.readdirSync(srcpath).filter(function(file) {
 		return fs.statSync(path.join(srcpath, file)).isDirectory();
@@ -617,7 +606,6 @@ function load_plugins(){
 function rssfeed(bot,msg,url,count,full){
     var FeedParser = require('feedparser');
     var feedparser = new FeedParser();
-    var request = require('request');
     request(url).pipe(feedparser);
     feedparser.on('error', function(error){
         bot.sendMessage(msg.channel,"failed reading feed: " + error);
@@ -780,12 +768,8 @@ function get_gif(tags, func) {
         }.bind(this));
     }
 
-bot.login(AuthDetails.email, AuthDetails.password);
+bot.loginWithToken("MjExMjM3NDUyMjI3MTQ5ODI0.CoaZxg.-d3viBot4S_9Z5KGwxX3hqUBaa4");
 
-http.createServer(function(req,res) {
-    setInterval(function() {
-        http.get("http://polar-savannah-34466.herokuapp.com");
-    }, 200);
-}).listen(process.env.PORT || 5000, function() {
+http.createServer().listen(process.env.PORT || 5000, function() {
     console.log('Listening on port');
 });
