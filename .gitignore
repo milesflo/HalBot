@@ -33,3 +33,6 @@ rss.json
 alias.json
 permissions.json
 messagebox.json
+
+#secret files
+auth.json
