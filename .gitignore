@@ -35,4 +35,4 @@ permissions.json
 messagebox.json
 
 #secret files
-auth.json
+auth

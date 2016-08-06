@@ -768,7 +768,7 @@ function get_gif(tags, func) {
         }.bind(this));
     }
 
-bot.loginWithToken("MjExMjM3NDUyMjI3MTQ5ODI0.CoaZxg.-d3viBot4S_9Z5KGwxX3hqUBaa4");
+bot.loginWithToken(AuthDetails.token);
 
 http.createServer().listen(process.env.PORT || 5000, function() {
     console.log('Listening on port');
